@@ -12,13 +12,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
-            buildConfigField "String","MP_API_KEY","\"444a9ef5-8a6b-429f-abdf-587639155d88\""
+        debug {
+            buildConfigField "String", "MP_API_KEY", "\"444a9ef5-8a6b-429f-abdf-587639155d88\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String","MP_API_KEY","\"444a9ef5-8a6b-429f-abdf-587639155d88\""
+            buildConfigField "String", "MP_API_KEY", "\"444a9ef5-8a6b-429f-abdf-587639155d88\""
         }
     }
 }
@@ -29,8 +29,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
     compile 'com.mcxiaoke.volley:library:1.0.16'
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    testCompile 'junit:junit:4.12'
 }

@@ -1,16 +1,16 @@
 package ar.com.leandrolopez.mediosdepago.network;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
+import java.lang.reflect.Type;
 
 /**
  * Created by Nico on 19/7/2017.
@@ -18,33 +18,33 @@ import java.util.Map;
 
 public class GsonRequest<T> extends Request<T> {
     private final Gson gson = new Gson();
-    private final Class<T> clazz;
-    private final Map<String, String> headers;
-    private final Response.Listener<T> listener;
+    private Type mGsonType;
+    private final NetworkCallback<T> mListener;
 
     /**
      * Make a GET request and return a parsed object from JSON.
      *
      * @param url URL of the request to make
-     * @param clazz Relevant class object, for Gson's reflection
-     * @param headers Map of request headers
      */
-    public GsonRequest(String url, Class<T> clazz, Map<String, String> headers,
-                       Response.Listener<T> listener, Response.ErrorListener errorListener) {
-        super(Method.GET, url, errorListener);
-        this.clazz = clazz;
-        this.headers = headers;
-        this.listener = listener;
-    }
-
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        return headers != null ? headers : super.getHeaders();
+    public GsonRequest(String url, Type gsonType, final NetworkCallback<T> listener) {
+        super(Method.GET, url, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (listener != null) {
+                    NetworkError networkError = new NetworkError(error);
+                    listener.onError(networkError);
+                }
+            }
+        });
+        this.mGsonType = gsonType;
+        this.mListener = listener;
     }
 
     @Override
     protected void deliverResponse(T response) {
-        listener.onResponse(response);
+        if (mListener != null) {
+            mListener.onSuccess(response);
+        }
     }
 
     @Override
@@ -53,9 +53,13 @@ public class GsonRequest<T> extends Request<T> {
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
+
+            T responseObj = gson.fromJson(json, mGsonType);
+
             return Response.success(
-                    gson.fromJson(json, clazz),
+                    responseObj,
                     HttpHeaderParser.parseCacheHeaders(response));
+
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {

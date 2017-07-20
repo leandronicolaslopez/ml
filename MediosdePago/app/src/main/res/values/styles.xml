@@ -8,4 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="boxTitle">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="box">
+        <item name="android:background">@color/white</item>
+        <item name="android:elevation">@dimen/box_elevation</item>
+        <item name="android:paddingTop">40dp</item>
+        <item name="android:paddingBottom">40dp</item>
+        <item name="android:paddingRight">@dimen/box_padding</item>
+        <item name="android:paddingLeft">@dimen/box_padding</item>
+    </style>
+
 </resources>
