@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_padding">20dp</dimen>
+    <dimen name="box_padding">10dp</dimen>
+    <dimen name="box_elevation">10dp</dimen>
+    <dimen name="payment_method_item_padding">10dp</dimen>
+    <dimen name="default_elevation">2dp</dimen>
+
+    <dimen name="margin_s">5dp</dimen>
+    <dimen name="margin_m">10dp</dimen>
+    <dimen name="margin_l">20dp</dimen>
+
+    <dimen name="font_m">16sp</dimen>
+    <dimen name="font_s">12sp</dimen>
+    <dimen name="font_l">20sp</dimen>
+</resources>
