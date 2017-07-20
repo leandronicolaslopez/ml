@@ -17,7 +17,7 @@
             style="@style/boxTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/medio_pago_titulo" />
+            android:text="@string/cuotas_titulo" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_weight="1"

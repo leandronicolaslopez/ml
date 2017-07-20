@@ -9,6 +9,7 @@
     <dimen name="margin_s">5dp</dimen>
     <dimen name="margin_m">10dp</dimen>
     <dimen name="margin_l">20dp</dimen>
+    <dimen name="margin_xl">24dp</dimen>
 
     <dimen name="font_m">16sp</dimen>
     <dimen name="font_s">12sp</dimen>

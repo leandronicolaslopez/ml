@@ -2,6 +2,8 @@ package ar.com.leandrolopez.mediosdepago;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +24,14 @@ public class PaymentStep1Fragment extends Fragment {
 
     float getMonto() {
         String strValue = mEditText.getText().toString();
-        if (!strValue.equals(""))
-            return Float.parseFloat(strValue);
-        else
+        try {
+            if (!strValue.equals(""))
+                return Float.parseFloat(strValue);
+            else
+                return 0;
+        } catch (Exception e) {
             return 0;
+        }
     }
 
     public interface Callback {
@@ -68,10 +74,26 @@ public class PaymentStep1Fragment extends Fragment {
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_DONE && getMonto() > 0) {
                     dispatchNextButtonPressed();
                 }
                 return false;
+            }
+        });
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mBtnNext.setEnabled(getMonto() > 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

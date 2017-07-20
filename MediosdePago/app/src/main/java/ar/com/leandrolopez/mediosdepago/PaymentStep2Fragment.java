@@ -34,6 +34,7 @@ public class PaymentStep2Fragment extends Fragment {
     private RecyclerView mRecycler;
     private Callback mListener;
     private PaymentMethod mPaymentMethodBundle;
+    private List<PaymentMethod> mList;
     private final static String EXTRA = "Extra";
 
     PaymentMethodAdapter mAdapter;
@@ -49,8 +50,7 @@ public class PaymentStep2Fragment extends Fragment {
     }
 
     public interface Callback {
-        void onNextButtonPressed();
-        void onBeforeLeave(PaymentMethod paymentMethod);
+        void onNextButtonPressed(PaymentMethod paymentMethod);
     }
 
     public PaymentStep2Fragment() {
@@ -59,14 +59,6 @@ public class PaymentStep2Fragment extends Fragment {
 
     public void setListener(Callback listener) {
         mListener = listener;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if(mListener != null) {
-            mListener.onBeforeLeave(mAdapter.getValue());
-        }
     }
 
     @Override
@@ -85,31 +77,50 @@ public class PaymentStep2Fragment extends Fragment {
     }
 
     private void callService() {
-        final ProgressDialog pd = new ProgressDialog(getActivity());
-        pd.show();
-        PaymentMethodServices.getPaymentMethods(getActivity(), new NetworkCallback<List<PaymentMethod>>() {
-            @Override
-            public void onSuccess(List<PaymentMethod> response) {
-                pd.dismiss();
-                if (response != null && response.size() > 0) {
-                    //Filtro solo los de tipo credit_card
-                    for (Iterator<PaymentMethod> iterator = response.listIterator(); iterator.hasNext(); ) {
-                        PaymentMethod item = iterator.next();
-                        if (!item.getPayment_type_id().equals("credit_card")) {
-                            iterator.remove();
+        if (mList == null) {
+            final ProgressDialog pd = new ProgressDialog(getActivity());
+            pd.show();
+            PaymentMethodServices.getPaymentMethods(getActivity(), new NetworkCallback<List<PaymentMethod>>() {
+                @Override
+                public void onSuccess(List<PaymentMethod> response) {
+                    pd.dismiss();
+                    if (response != null && response.size() > 0) {
+                        //Filtro solo los de tipo credit_card
+                        for (Iterator<PaymentMethod> iterator = response.listIterator(); iterator.hasNext(); ) {
+                            PaymentMethod item = iterator.next();
+                            if (!item.getPayment_type_id().equals("credit_card")) {
+                                iterator.remove();
+                            }
                         }
+                        mList = response;
+                        configureAdapter(response);
+                    } else {
+                        Toast.makeText(getActivity(), "La consulta no produjo resultados", Toast.LENGTH_SHORT).show();
                     }
-                    configureAdapter(response);
-                } else {
-                    Toast.makeText(getActivity(), "La consulta no produjo resultados", Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onError(NetworkError error) {
-                pd.dismiss();
-            }
-        });
+                @Override
+                public void onError(NetworkError error) {
+                    pd.dismiss();
+                }
+            });
+        } else {
+            configureAdapter(mList);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(EXTRA, mPaymentMethodBundle);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null) {
+            mPaymentMethodBundle = savedInstanceState.getParcelable(EXTRA);
+        }
     }
 
     private void attachViews(View v) {
@@ -122,6 +133,8 @@ public class PaymentStep2Fragment extends Fragment {
                 dispatchButtonNext();
             }
         });
+        //Inicializo el botón si tiene seleccionado
+        mBtnNext.setEnabled(mPaymentMethodBundle != null);
     }
 
     private void configureAdapter(List<PaymentMethod> list) {
@@ -130,11 +143,18 @@ public class PaymentStep2Fragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecycler.setAdapter(mAdapter);
         mRecycler.setLayoutManager(layoutManager);
+        mAdapter.setPaymentMethodListener(new PaymentMethodAdapter.PaymentMethodListener() {
+            @Override
+            public void onValueChanged(PaymentMethod paymentMethod) {
+                mPaymentMethodBundle = paymentMethod;
+                mBtnNext.setEnabled(mPaymentMethodBundle != null);
+            }
+        });
     }
 
     private void dispatchButtonNext() {
         if (mListener != null) {
-            mListener.onNextButtonPressed();
+            mListener.onNextButtonPressed(mAdapter.getValue());
         }
     }
 }

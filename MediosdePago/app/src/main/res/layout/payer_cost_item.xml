@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemRootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/payment_method_item_unselected"
+    android:elevation="@dimen/default_elevation"
+    android:orientation="horizontal"
+    android:padding="@dimen/payment_method_item_padding"
+    tools:background="@color/payment_method_item_selected">
+
+    <TextView
+        android:id="@+id/txtMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/margin_m"
+        android:textSize="@dimen/font_l"
+        tools:text="1 cuota de $ 15,00 ($ 15,00)" />
+
+</LinearLayout>

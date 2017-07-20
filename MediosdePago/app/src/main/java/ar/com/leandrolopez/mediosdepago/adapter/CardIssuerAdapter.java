@@ -8,40 +8,40 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import ar.com.leandrolopez.mediosdepago.R;
+import ar.com.leandrolopez.mediosdepago.network.model.CardIssuer;
 import ar.com.leandrolopez.mediosdepago.network.model.PaymentMethod;
 
 /**
  * Created by Nico on 19/7/2017.
  */
 
-public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdapter.Holder> {
-    private List<PaymentMethod> mList;
+public class CardIssuerAdapter extends RecyclerView.Adapter<CardIssuerAdapter.Holder> {
+    private List<CardIssuer> mList;
     private Context mContext;
 
     //Inicializa sin selección
     private int mSelectedIndex = -1;
 
-    private PaymentMethodListener paymentMethodListener;
+    private CardIssueListener mListener;
 
-    public interface PaymentMethodListener {
-        void onValueChanged(PaymentMethod paymentMethod);
-    }
-
-    public void setPaymentMethodListener(PaymentMethodListener listener) {
-        paymentMethodListener = listener;
-    }
-
-    public PaymentMethod getValue() {
+    public CardIssuer getValue() {
         return mList.get(mSelectedIndex);
     }
 
-    public PaymentMethodAdapter(Context ctx, List<PaymentMethod> list, PaymentMethod selected) {
+    public interface CardIssueListener {
+        void onValueChanged(CardIssuer cardIssuer);
+    }
+
+    public void setListener(CardIssueListener listener) {
+        mListener = listener;
+    }
+
+    public CardIssuerAdapter(Context ctx, List<CardIssuer> list, CardIssuer selected) {
         mList = list;
         if (selected != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -63,10 +63,7 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        /*MoreOptions moreOptions = this.mMoreOptionsItems.get(position);
-        holder.mTitleTextView.setText(moreOptions.getLabel());
-        holder.itemView.setTag(moreOptions);*/
-        PaymentMethod item = mList.get(position);
+        CardIssuer item = mList.get(position);
         holder.txtPaymentMethod.setText(item.getName());
         Picasso.with(mContext).load(item.getThumbnail()).into(holder.imgPaymentMethod);
 
@@ -80,8 +77,9 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
             @Override
             public void onClick(View v) {
                 mSelectedIndex = position;
-                if (paymentMethodListener != null)
-                    paymentMethodListener.onValueChanged(mList.get(mSelectedIndex));
+                if (mListener != null) {
+                    mListener.onValueChanged(mList.get(mSelectedIndex));
+                }
                 notifyDataSetChanged();
             }
         });

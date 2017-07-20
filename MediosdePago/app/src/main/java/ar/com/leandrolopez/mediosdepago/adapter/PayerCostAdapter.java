@@ -8,44 +8,44 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import ar.com.leandrolopez.mediosdepago.R;
-import ar.com.leandrolopez.mediosdepago.network.model.PaymentMethod;
+import ar.com.leandrolopez.mediosdepago.network.model.CardIssuer;
+import ar.com.leandrolopez.mediosdepago.network.model.PayerCost;
 
 /**
  * Created by Nico on 19/7/2017.
  */
 
-public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdapter.Holder> {
-    private List<PaymentMethod> mList;
+public class PayerCostAdapter extends RecyclerView.Adapter<PayerCostAdapter.Holder> {
+    private List<PayerCost> mList;
     private Context mContext;
 
     //Inicializa sin selección
     private int mSelectedIndex = -1;
 
-    private PaymentMethodListener paymentMethodListener;
+    private PayerCostListener mListener;
 
-    public interface PaymentMethodListener {
-        void onValueChanged(PaymentMethod paymentMethod);
-    }
-
-    public void setPaymentMethodListener(PaymentMethodListener listener) {
-        paymentMethodListener = listener;
-    }
-
-    public PaymentMethod getValue() {
+    public PayerCost getValue() {
         return mList.get(mSelectedIndex);
     }
 
-    public PaymentMethodAdapter(Context ctx, List<PaymentMethod> list, PaymentMethod selected) {
+    public interface PayerCostListener {
+        void onValueChanged(PayerCost payerCost);
+    }
+
+    public void setListener(PayerCostListener listener) {
+        mListener = listener;
+    }
+
+    public PayerCostAdapter(Context ctx, List<PayerCost> list, PayerCost selected) {
         mList = list;
         if (selected != null) {
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getId().equals(selected.getId())) {
+                if (list.get(i).getInstallments().equals(selected.getInstallments())) {
                     mSelectedIndex = i;
                     break;
                 }
@@ -57,18 +57,14 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_method_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payer_cost_item, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        /*MoreOptions moreOptions = this.mMoreOptionsItems.get(position);
-        holder.mTitleTextView.setText(moreOptions.getLabel());
-        holder.itemView.setTag(moreOptions);*/
-        PaymentMethod item = mList.get(position);
-        holder.txtPaymentMethod.setText(item.getName());
-        Picasso.with(mContext).load(item.getThumbnail()).into(holder.imgPaymentMethod);
+        PayerCost item = mList.get(position);
+        holder.txtMessage.setText(item.getRecommended_message());
 
         if (position == mSelectedIndex) {
             holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.payment_method_item_selected));
@@ -80,8 +76,9 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
             @Override
             public void onClick(View v) {
                 mSelectedIndex = position;
-                if (paymentMethodListener != null)
-                    paymentMethodListener.onValueChanged(mList.get(mSelectedIndex));
+                if (mListener != null) {
+                    mListener.onValueChanged(mList.get(mSelectedIndex));
+                }
                 notifyDataSetChanged();
             }
         });
@@ -99,14 +96,12 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        private TextView txtPaymentMethod;
-        private ImageView imgPaymentMethod;
+        private TextView txtMessage;
         private ViewGroup rootView;
 
         public Holder(View itemView) {
             super(itemView);
-            txtPaymentMethod = (TextView) itemView.findViewById(R.id.txtPaymentType);
-            imgPaymentMethod = (ImageView) itemView.findViewById(R.id.imgPaymentType);
+            txtMessage = (TextView) itemView.findViewById(R.id.txtMessage);
             rootView = (ViewGroup) itemView.findViewById(R.id.itemRootView);
         }
     }
