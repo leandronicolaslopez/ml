@@ -113,6 +113,21 @@ public class PaymentStep3Fragment extends Fragment {
         mBtnNext.setEnabled(mCardIssuerBundle != null);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(EXTRA_ISSUER, mCardIssuerBundle);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            Bundle b = new Bundle();
+            mCardIssuerBundle = b.getParcelable(EXTRA_ISSUER);
+        }
+    }
+
     private void configureAdapter(List<CardIssuer> list) {
         mAdapter = new CardIssuerAdapter(getActivity(), list, mCardIssuerBundle);
 

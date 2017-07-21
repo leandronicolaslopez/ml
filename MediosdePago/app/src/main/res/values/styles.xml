@@ -10,6 +10,7 @@
 
     <style name="boxTitle">
         <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#fba703</item>
     </style>
 
     <style name="box">

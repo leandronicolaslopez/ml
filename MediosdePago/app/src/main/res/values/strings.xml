@@ -3,10 +3,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="monto">Ingresá el monto</string>
     <string name="hint_monto">Monto</string>
-    <string name="medio_pago_titulo">Medio de pago</string>
-    <string name="banco_titulo">Banco</string>
+    <string name="medio_pago_titulo">Seleccioná el medio de pago</string>
+    <string name="banco_titulo">Seleccioná el banco</string>
     <string name="cuotas_titulo">Cuotas</string>
 
-    <string name="button_siguiente">Siguiente</string>
+    <string name="button_siguiente">Continuar</string>
+    <string name="button_confirm">Comprar</string>
 </resources>

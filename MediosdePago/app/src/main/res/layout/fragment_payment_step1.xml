@@ -1,45 +1,44 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_container"
+    android:orientation="vertical"
     android:padding="@dimen/default_padding"
     tools:context="ar.com.leandrolopez.mediosdepago.PaymentStep1Fragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:background="@android:color/white"
-        android:elevation="@dimen/box_elevation"
-        android:orientation="vertical"
-        android:paddingBottom="40dp"
-        android:paddingLeft="@dimen/box_padding"
-        android:paddingRight="@dimen/box_padding"
-        android:paddingTop="40dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
 
         <TextView
+            android:id="@+id/title"
             style="@style/boxTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hint_monto" />
+            android:text="@string/monto" />
 
         <EditText
             android:id="@+id/editMonto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/title"
             android:layout_marginTop="@dimen/margin_l"
-            android:inputType="numberDecimal" />
+            android:hint="@string/hint_monto"
+            android:inputType="numberDecimal"
+            android:maxLength="10" />
+    </RelativeLayout>
 
-        <Button
-            style="@style/btnPrimary"
-            android:enabled="false"
-            android:id="@+id/btnNext"
-            tools:enabled="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="@dimen/margin_l"
-            android:text="@string/button_siguiente" />
-    </LinearLayout>
-</RelativeLayout>
+    <Button
+        android:id="@+id/btnNext"
+        style="@style/btnPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/margin_l"
+        android:enabled="false"
+        android:text="@string/button_siguiente"
+        tools:enabled="true" />
+</LinearLayout>

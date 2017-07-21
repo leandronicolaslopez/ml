@@ -1,39 +1,32 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_container"
+    android:orientation="vertical"
     android:padding="@dimen/default_padding"
     tools:context="ar.com.leandrolopez.mediosdepago.PaymentStep1Fragment">
 
-    <LinearLayout
-        style="@style/box"
-        android:layout_width="match_parent"
+    <TextView
+        style="@style/boxTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:orientation="vertical">
+        android:text="@string/cuotas_titulo" />
 
-        <TextView
-            style="@style/boxTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cuotas_titulo" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_l"
+        android:layout_weight="1" />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/margin_m"
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
-
-        <Button
-            android:enabled="false"
-            style="@style/btnPrimary"
-            android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="@dimen/margin_l"
-            android:text="@string/button_siguiente" />
-    </LinearLayout>
-</RelativeLayout>
+    <Button
+        android:id="@+id/btnNext"
+        style="@style/btnPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/margin_l"
+        android:enabled="false"
+        android:text="@string/button_confirm" />
+</LinearLayout>

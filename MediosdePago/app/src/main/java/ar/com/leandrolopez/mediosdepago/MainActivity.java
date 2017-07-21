@@ -95,7 +95,11 @@ public class MainActivity extends AppCompatActivity {
         fragment.setListener(new PaymentStep2Fragment.Callback() {
             @Override
             public void onNextButtonPressed(PaymentMethod paymentMethod) {
-                //TODO if paymentMethod.getId() != mModel.paymentMethod.getId() => borrar cardissuer del model y reiniciar prox frag.
+                //El paymentMethod cambió, hay que borrar los datos de los flows siguientes
+                if (mModel.getPaymentMethod() != null && paymentMethod != null && !mModel.getPaymentMethod().getId().equals(paymentMethod.getId())) {
+                    mModel.setCardIssuer(null);
+                    mModel.setPayerCost(null);
+                }
                 mModel.setPaymentMethod(paymentMethod);
                 navigateFragmentThree();
             }
@@ -109,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNextButtonPressed(CardIssuer cardIssuer) {
                 mModel.setCardIssuer(cardIssuer);
-
+                mModel.setPayerCost(null);
                 navigateFragmentFour();
             }
         });
