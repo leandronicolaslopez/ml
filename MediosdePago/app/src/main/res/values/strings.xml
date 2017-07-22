@@ -11,4 +11,10 @@
 
     <string name="button_siguiente">Continuar</string>
     <string name="button_confirm">Comprar</string>
+    <string name="currency_pesos">$</string>
+
+    <string name="summary_amount">$ %.2f</string>
+    <string name="ok">Cerrar</string>
+
+    <string name="success_message">¡Compraste con éxito!</string>
 </resources>

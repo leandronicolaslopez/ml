@@ -1,13 +1,17 @@
 package ar.com.leandrolopez.mediosdepago;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         String tag = fragment.getClass().getSimpleName();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction tx = fm.beginTransaction();
-
+        tx.setCustomAnimations(R.anim.anim_left_in, R.anim.anim_left_out, R.anim.anim_right_in, R.anim.anim_right_out);
         if (mFragmentStack.contains(tag)) {
             Fragment fg = fm.findFragmentByTag(tag);
             if (fg != null) {
@@ -76,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
             }
             tx.commit();
         }
+    }
+
+    private void clearStack() {
+        mFragmentStack.clear();
+        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     private void navigateFragmentOne() {
@@ -126,9 +135,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNextButtonPressed(PayerCost payerCost) {
                 mModel.setPayerCost(payerCost);
-                Toast.makeText(MainActivity.this, "Fin flow", Toast.LENGTH_SHORT).show();
+                showAlert();
             }
         });
         showFragment(fragment);
+    }
+
+    private void showAlert() {
+
+        final Dialog d = new Dialog(this);
+        d.setContentView(R.layout.dialog_layout);
+        d.setCanceledOnTouchOutside(false);
+
+        String formattedMonto = getString(R.string.summary_amount, mModel.getMonto());
+        ((TextView) d.findViewById(R.id.txtMonto)).setText(formattedMonto);
+
+        ((TextView) d.findViewById(R.id.txtMedioPago)).setText(mModel.getPaymentMethod().getName());
+        ((TextView) d.findViewById(R.id.txtBanco)).setText(mModel.getCardIssuer().getName());
+        ((TextView) d.findViewById(R.id.txtCuotas)).setText(mModel.getPayerCost().getRecommended_message());
+        d.findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                clearStack();
+                navigateFragmentOne();
+            }
+        });
+
+        d.show();
     }
 }

@@ -15,7 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/margin_m"
         android:textSize="@dimen/font_l"
         tools:text="1 cuota de $ 15,00 ($ 15,00)" />
 

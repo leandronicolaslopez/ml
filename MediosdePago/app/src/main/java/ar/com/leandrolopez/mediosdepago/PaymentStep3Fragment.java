@@ -21,6 +21,7 @@ import ar.com.leandrolopez.mediosdepago.network.NetworkError;
 import ar.com.leandrolopez.mediosdepago.network.model.CardIssuer;
 import ar.com.leandrolopez.mediosdepago.network.model.PaymentMethod;
 import ar.com.leandrolopez.mediosdepago.network.services.CardIssuerServices;
+import ar.com.leandrolopez.mediosdepago.ui.MercadoDialog;
 
 
 /**
@@ -80,7 +81,7 @@ public class PaymentStep3Fragment extends Fragment {
     }
 
     private void callService() {
-        final ProgressDialog pd = new ProgressDialog(getActivity());
+        final ProgressDialog pd = MercadoDialog.newProgress(getActivity());
         pd.show();
         CardIssuerServices.getCardIssuers(getActivity(), new NetworkCallback<List<CardIssuer>>() {
             @Override

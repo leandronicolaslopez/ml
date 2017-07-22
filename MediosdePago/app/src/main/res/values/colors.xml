@@ -13,4 +13,5 @@
     <color name="brand_ml_secondary_strong">#5AC4F1</color>
     <color name="brand_ml_secondary_light">#7bd0f4</color>
     <color name="inactive">#f3f3f3</color>
+    <color name="green_ok">#42bc15</color>
 </resources>
