@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/default_padding"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/title_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/success_message" />
+
+    <TextView
+        android:layout_marginTop="@dimen/margin_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monto"
+        android:textSize="@dimen/font_l"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtMonto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_s"
+        android:textSize="@dimen/font_m"
+        tools:text="$ 500.00" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_m"
+        android:text="Medio de pago"
+        android:textSize="@dimen/font_l"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtMedioPago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_s"
+        android:textSize="@dimen/font_m"
+        tools:text="Visa" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_m"
+        android:text="Banco"
+        android:textSize="@dimen/font_l"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtBanco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_s"
+        android:textSize="@dimen/font_m"
+        tools:text="BBVA Francés" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_m"
+        android:text="Cuotas"
+        android:textSize="@dimen/font_l"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtCuotas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_s"
+        android:textSize="@dimen/font_m"
+        tools:text="1 cuota de $ 15,00 ($ 15,00)" />
+
+    <Button
+        android:id="@+id/btnOk"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/margin_m"
+        android:text="@string/ok" />
+
+</LinearLayout>
