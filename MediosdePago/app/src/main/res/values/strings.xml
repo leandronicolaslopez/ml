@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Medios de Pago</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_state_text">No hay resultados para mostrar</string>
+    <string name="default_service_error">Ocurrió un error de conexión</string>
+
     <string name="monto">Ingresá el monto</string>
     <string name="hint_monto">Monto</string>
     <string name="medio_pago_titulo">Seleccioná el medio de pago</string>
@@ -17,4 +18,8 @@
     <string name="ok">Cerrar</string>
 
     <string name="success_message">¡Compraste con éxito!</string>
+
+    <string name="url_payment_methods">\?public_key=%s</string>
+    <string name="url_installments">installments?public_key=%1$s&amp;amount=%2$s&amp;payment_method_id=%3$s&amp;issuer.id=%4$s</string>
+    <string name="url_card_issuers">card_issuers?public_key=%1$s&amp;payment_method_id=%2$s</string>
 </resources>

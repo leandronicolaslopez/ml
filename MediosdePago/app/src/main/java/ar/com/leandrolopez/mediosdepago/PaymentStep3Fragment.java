@@ -1,6 +1,5 @@
 package ar.com.leandrolopez.mediosdepago;
 
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -34,6 +34,8 @@ public class PaymentStep3Fragment extends Fragment {
     private RecyclerView mRecycler;
     private Callback mListener;
     private CardIssuer mCardIssuerBundle;
+    private TextView mTxtEmptyState;
+    private ViewGroup mLayoutData;
     private final static String EXTRA_ISSUER = "ExtraCardIssuer", EXTRA_PAYMENT_METHOD = "ExtraPaymentMethod";
 
     CardIssuerAdapter mAdapter;
@@ -90,19 +92,24 @@ public class PaymentStep3Fragment extends Fragment {
                 if (response != null && response.size() > 0) {
                     configureAdapter(response);
                 } else {
-                    Toast.makeText(getActivity(), "La consulta no produjo resultados", Toast.LENGTH_SHORT).show();
+                    mTxtEmptyState.setVisibility(View.VISIBLE);
+                    mLayoutData.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onError(NetworkError error) {
                 pd.dismiss();
+                Toast.makeText(getActivity(), getString(R.string.default_service_error), Toast.LENGTH_SHORT).show();
             }
         }, mPaymentMethodIdBundle);
     }
 
     private void attachViews(View v) {
         mRecycler = (RecyclerView) v.findViewById(R.id.recycler);
+
+        mTxtEmptyState = (TextView) v.findViewById(R.id.empty_state);
+        mLayoutData = (ViewGroup) v.findViewById(R.id.layoutData);
 
         mBtnNext = (Button) v.findViewById(R.id.btnNext);
         mBtnNext.setOnClickListener(new View.OnClickListener() {

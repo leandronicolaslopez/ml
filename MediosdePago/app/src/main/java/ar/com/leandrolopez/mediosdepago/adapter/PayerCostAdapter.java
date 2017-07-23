@@ -5,15 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import ar.com.leandrolopez.mediosdepago.R;
-import ar.com.leandrolopez.mediosdepago.network.model.CardIssuer;
 import ar.com.leandrolopez.mediosdepago.network.model.PayerCost;
 
 /**
@@ -62,20 +58,21 @@ public class PayerCostAdapter extends RecyclerView.Adapter<PayerCostAdapter.Hold
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, final int position) {
-        PayerCost item = mList.get(position);
+    public void onBindViewHolder(Holder holder, int position) {
+        final int pos = position;
+        PayerCost item = mList.get(pos);
         holder.txtMessage.setText(item.getRecommended_message());
 
-        if (position == mSelectedIndex) {
-            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.payment_method_item_selected));
+        if (pos == mSelectedIndex) {
+            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.list_item_selected));
         } else {
-            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.payment_method_item_unselected));
+            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.list_item_unselected));
         }
 
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSelectedIndex = position;
+                mSelectedIndex = pos;
                 if (mListener != null) {
                     mListener.onValueChanged(mList.get(mSelectedIndex));
                 }

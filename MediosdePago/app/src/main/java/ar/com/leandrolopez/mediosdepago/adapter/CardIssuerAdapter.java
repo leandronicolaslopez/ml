@@ -14,7 +14,6 @@ import java.util.List;
 
 import ar.com.leandrolopez.mediosdepago.R;
 import ar.com.leandrolopez.mediosdepago.network.model.CardIssuer;
-import ar.com.leandrolopez.mediosdepago.network.model.PaymentMethod;
 
 /**
  * Created by Nico on 19/7/2017.
@@ -57,20 +56,20 @@ public class CardIssuerAdapter extends RecyclerView.Adapter<CardIssuerAdapter.Ho
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_method_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_text_item, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
         CardIssuer item = mList.get(position);
-        holder.txtPaymentMethod.setText(item.getName());
-        Picasso.with(mContext).load(item.getThumbnail()).into(holder.imgPaymentMethod);
+        holder.txtName.setText(item.getName());
+        Picasso.with(mContext).load(item.getThumbnail()).into(holder.imgImage);
 
         if (position == mSelectedIndex) {
-            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.payment_method_item_selected));
+            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.list_item_selected));
         } else {
-            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.payment_method_item_unselected));
+            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.list_item_unselected));
         }
 
         holder.rootView.setOnClickListener(new View.OnClickListener() {
@@ -97,14 +96,14 @@ public class CardIssuerAdapter extends RecyclerView.Adapter<CardIssuerAdapter.Ho
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        private TextView txtPaymentMethod;
-        private ImageView imgPaymentMethod;
+        private TextView txtName;
+        private ImageView imgImage;
         private ViewGroup rootView;
 
         public Holder(View itemView) {
             super(itemView);
-            txtPaymentMethod = (TextView) itemView.findViewById(R.id.txtPaymentType);
-            imgPaymentMethod = (ImageView) itemView.findViewById(R.id.imgPaymentType);
+            txtName = (TextView) itemView.findViewById(R.id.txtName);
+            imgImage = (ImageView) itemView.findViewById(R.id.imgImage);
             rootView = (ViewGroup) itemView.findViewById(R.id.itemRootView);
         }
     }

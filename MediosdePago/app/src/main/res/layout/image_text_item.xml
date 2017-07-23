@@ -5,23 +5,22 @@
     android:id="@+id/itemRootView"
     android:layout_height="wrap_content"
     android:elevation="@dimen/default_elevation"
-    tools:background="@color/payment_method_item_selected"
-    android:background="@color/payment_method_item_unselected"
+    tools:background="@color/list_item_selected"
+    android:background="@color/list_item_unselected"
     android:padding="@dimen/payment_method_item_padding"
     android:orientation="horizontal">
 
     <ImageView
-        android:scaleType="fitCenter"
         android:layout_gravity="center"
-        android:id="@+id/imgPaymentType"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/imgImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:src="@drawable/visa" />
 
     <TextView
         android:layout_marginLeft="@dimen/margin_m"
         android:layout_gravity="center"
-        android:id="@+id/txtPaymentType"
+        android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_m"

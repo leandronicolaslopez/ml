@@ -15,8 +15,4 @@ public class MercadoDialog {
         pd.setCancelable(false);
         return pd;
     }
-
-    public static void showAlert() {
-
-    }
 }

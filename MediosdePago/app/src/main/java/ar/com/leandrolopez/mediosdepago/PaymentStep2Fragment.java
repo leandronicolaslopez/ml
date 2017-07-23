@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Iterator;
@@ -23,7 +23,6 @@ import ar.com.leandrolopez.mediosdepago.network.NetworkError;
 import ar.com.leandrolopez.mediosdepago.network.model.PaymentMethod;
 import ar.com.leandrolopez.mediosdepago.network.services.PaymentMethodServices;
 import ar.com.leandrolopez.mediosdepago.ui.MercadoDialog;
-import ar.com.leandrolopez.mediosdepago.viewmodel.PaymentViewModel;
 
 
 /**
@@ -37,6 +36,8 @@ public class PaymentStep2Fragment extends Fragment {
     private PaymentMethod mPaymentMethodBundle;
     private List<PaymentMethod> mList;
     private final static String EXTRA = "Extra";
+    private TextView mTxtEmptyState;
+    private ViewGroup mLayoutData;
 
     PaymentMethodAdapter mAdapter;
 
@@ -97,13 +98,15 @@ public class PaymentStep2Fragment extends Fragment {
                         mList = response;
                         configureAdapter(response);
                     } else {
-                        Toast.makeText(getActivity(), "La consulta no produjo resultados", Toast.LENGTH_SHORT).show();
+                        mLayoutData.setVisibility(View.GONE);
+                        mTxtEmptyState.setVisibility(View.VISIBLE);
                     }
                 }
 
                 @Override
                 public void onError(NetworkError error) {
                     pd.dismiss();
+                    Toast.makeText(getActivity(), getString(R.string.default_service_error), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -120,13 +123,17 @@ public class PaymentStep2Fragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mPaymentMethodBundle = savedInstanceState.getParcelable(EXTRA);
         }
     }
 
     private void attachViews(View v) {
         mRecycler = (RecyclerView) v.findViewById(R.id.recycler);
+
+        mTxtEmptyState = (TextView) v.findViewById(R.id.empty_state);
+
+        mLayoutData = (ViewGroup) v.findViewById(R.id.layoutData);
 
         mBtnNext = (Button) v.findViewById(R.id.btnNext);
         mBtnNext.setOnClickListener(new View.OnClickListener() {

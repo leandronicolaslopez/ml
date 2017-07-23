@@ -5,8 +5,8 @@
     <color name="colorPrimary">@color/brand_ml_yellow</color>
     <color name="colorPrimaryDark">#dec905</color>
     <color name="colorAccent">@color/brand_ml_blue</color>
-    <color name="payment_method_item_selected">@color/brand_ml_yellow_light</color>
-    <color name="payment_method_item_unselected">@android:color/transparent</color>
+    <color name="list_item_selected">@color/brand_ml_yellow_light</color>
+    <color name="list_item_unselected">@android:color/transparent</color>
     <color name="brand_ml_yellow">#FFE600</color>
     <color name="brand_ml_yellow_light">#fff599</color>
     <color name="brand_ml_blue">#2D3277</color>

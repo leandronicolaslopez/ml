@@ -14,4 +14,8 @@
     <dimen name="font_m">16sp</dimen>
     <dimen name="font_s">12sp</dimen>
     <dimen name="font_l">20sp</dimen>
+
+    <dimen name="scroll_hint_height">20dp</dimen>
+
+    <dimen name="amount_frame">250dp</dimen>
 </resources>

@@ -4,11 +4,11 @@
     android:id="@+id/itemRootView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/payment_method_item_unselected"
+    android:background="@color/list_item_unselected"
     android:elevation="@dimen/default_elevation"
     android:orientation="horizontal"
     android:padding="@dimen/payment_method_item_padding"
-    tools:background="@color/payment_method_item_selected">
+    tools:background="@color/list_item_selected">
 
     <TextView
         android:id="@+id/txtMessage"

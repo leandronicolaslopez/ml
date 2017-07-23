@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,29 +56,27 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_method_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_text_item, parent, false);
         return new Holder(view);
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, final int position) {
-        /*MoreOptions moreOptions = this.mMoreOptionsItems.get(position);
-        holder.mTitleTextView.setText(moreOptions.getLabel());
-        holder.itemView.setTag(moreOptions);*/
-        PaymentMethod item = mList.get(position);
+    public void onBindViewHolder(Holder holder, int position) {
+        final int pos = position;
+        PaymentMethod item = mList.get(pos);
         holder.txtPaymentMethod.setText(item.getName());
         Picasso.with(mContext).load(item.getThumbnail()).into(holder.imgPaymentMethod);
 
-        if (position == mSelectedIndex) {
-            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.payment_method_item_selected));
+        if (pos == mSelectedIndex) {
+            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.list_item_selected));
         } else {
-            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.payment_method_item_unselected));
+            holder.rootView.setBackgroundColor(mContext.getResources().getColor(R.color.list_item_unselected));
         }
 
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSelectedIndex = position;
+                mSelectedIndex = pos;
                 if (paymentMethodListener != null)
                     paymentMethodListener.onValueChanged(mList.get(mSelectedIndex));
                 notifyDataSetChanged();
@@ -105,8 +102,8 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
         public Holder(View itemView) {
             super(itemView);
-            txtPaymentMethod = (TextView) itemView.findViewById(R.id.txtPaymentType);
-            imgPaymentMethod = (ImageView) itemView.findViewById(R.id.imgPaymentType);
+            txtPaymentMethod = (TextView) itemView.findViewById(R.id.txtName);
+            imgPaymentMethod = (ImageView) itemView.findViewById(R.id.imgImage);
             rootView = (ViewGroup) itemView.findViewById(R.id.itemRootView);
         }
     }

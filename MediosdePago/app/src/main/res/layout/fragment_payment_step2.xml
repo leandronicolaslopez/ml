@@ -1,44 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_container"
-    android:orientation="vertical"
     android:padding="@dimen/default_padding"
     tools:context="ar.com.leandrolopez.mediosdepago.PaymentStep1Fragment">
 
     <TextView
-        style="@style/boxTitle"
+        android:id="@+id/empty_state"
+        style="@style/empty_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/medio_pago_titulo" />
+        android:layout_centerInParent="true"
+        android:text="@string/empty_state_text"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-    <RelativeLayout
-        android:layout_marginTop="@dimen/margin_l"
+    <LinearLayout
+        android:id="@+id/layoutData"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:visibility="gone">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler"
+        <TextView
+            style="@style/boxTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/medio_pago_titulo" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_l"
+            android:layout_weight="1">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_alignBottom="@id/recycler"
-            android:background="@drawable/hint_scroll_gradient" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/scroll_hint_height"
+                android:layout_alignBottom="@id/recycler"
+                android:background="@drawable/hint_scroll_gradient" />
 
-    <Button
-        android:id="@+id/btnNext"
-        style="@style/btnPrimary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="@dimen/margin_l"
-        android:enabled="false"
-        android:text="@string/button_siguiente" />
-</LinearLayout>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnNext"
+            style="@style/btnPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/margin_l"
+            android:enabled="false"
+            android:text="@string/button_siguiente" />
+    </LinearLayout>
+</RelativeLayout>

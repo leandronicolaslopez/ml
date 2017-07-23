@@ -8,11 +8,11 @@
     tools:context="ar.com.leandrolopez.mediosdepago.PaymentStep1Fragment">
 
     <RelativeLayout
-        android:layout_width="250dp"
+        android:layout_width="@dimen/amount_frame"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:layout_gravity="center">
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/title"
@@ -22,21 +22,21 @@
             android:text="@string/monto" />
 
         <TextView
-            android:textSize="@dimen/font_l"
             android:id="@+id/txtCurrency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:layout_marginTop="@dimen/margin_l"
-            android:text="@string/currency_pesos" />
+            android:text="@string/currency_pesos"
+            android:textSize="@dimen/font_l" />
 
         <EditText
-            android:layout_marginLeft="@dimen/margin_m"
-            android:layout_alignBaseline="@id/txtCurrency"
             android:id="@+id/editMonto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/txtCurrency"
             android:layout_below="@id/title"
+            android:layout_marginLeft="@dimen/margin_m"
             android:hint="@string/hint_monto"
             android:inputType="numberDecimal"
             android:maxLength="10" />
