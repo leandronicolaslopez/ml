@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#fff</color>
-    <color name="background_container">@color/white</color>
     <color name="colorPrimary">@color/brand_ml_yellow</color>
     <color name="colorPrimaryDark">#dec905</color>
     <color name="colorAccent">@color/brand_ml_blue</color>
+
+    <color name="white">#fff</color>
+    <color name="background_container">@color/white</color>
     <color name="list_item_selected">@color/brand_ml_yellow_light</color>
     <color name="list_item_unselected">@android:color/transparent</color>
     <color name="brand_ml_yellow">#FFE600</color>

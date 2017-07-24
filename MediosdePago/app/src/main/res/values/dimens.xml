@@ -18,4 +18,7 @@
     <dimen name="scroll_hint_height">20dp</dimen>
 
     <dimen name="amount_frame">250dp</dimen>
+
+    <dimen name="thumbnail_width">45dp</dimen>
+    <dimen name="thumbnail_height">20dp</dimen>
 </resources>

@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,13 +158,14 @@ public class PaymentStep3Fragment extends Fragment {
             }
         });
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setAdapter(mAdapter);
         mRecycler.setLayoutManager(layoutManager);
     }
 
     private void dispatchButtonNext() {
-        if (mListener != null)
-            mListener.onNextButtonPressed(mAdapter.getValue());
+        if (mListener != null) {
+            mListener.onNextButtonPressed(mCardIssuerBundle);
+        }
     }
 }

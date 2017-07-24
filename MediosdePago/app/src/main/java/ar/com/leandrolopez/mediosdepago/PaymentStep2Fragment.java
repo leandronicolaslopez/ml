@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +36,7 @@ public class PaymentStep2Fragment extends Fragment {
     private Callback mListener;
     private PaymentMethod mPaymentMethodBundle;
     private List<PaymentMethod> mList;
-    private final static String EXTRA = "Extra", EXTRA_LIST ="ExtraList";
+    private final static String EXTRA = "Extra", EXTRA_LIST = "ExtraList";
     private TextView mTxtEmptyState;
     private ViewGroup mLayoutData;
 
@@ -73,7 +73,7 @@ public class PaymentStep2Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mPaymentMethodBundle = savedInstanceState.getParcelable(EXTRA);
             mList = savedInstanceState.getParcelableArrayList(EXTRA_LIST);
         }
@@ -126,14 +126,6 @@ public class PaymentStep2Fragment extends Fragment {
         outState.putParcelableArrayList(EXTRA_LIST, new ArrayList<>(mList));
         super.onSaveInstanceState(outState);
     }
-/*
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            mPaymentMethodBundle = savedInstanceState.getParcelable(EXTRA);
-        }
-    }*/
 
     private void attachViews(View v) {
         mRecycler = (RecyclerView) v.findViewById(R.id.recycler);
@@ -156,7 +148,7 @@ public class PaymentStep2Fragment extends Fragment {
     private void configureAdapter(List<PaymentMethod> list) {
         mAdapter = new PaymentMethodAdapter(getActivity(), list, mPaymentMethodBundle);
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setAdapter(mAdapter);
         mRecycler.setLayoutManager(layoutManager);
         mAdapter.setPaymentMethodListener(new PaymentMethodAdapter.PaymentMethodListener() {
@@ -170,7 +162,7 @@ public class PaymentStep2Fragment extends Fragment {
 
     private void dispatchButtonNext() {
         if (mListener != null) {
-            mListener.onNextButtonPressed(mAdapter.getValue());
+            mListener.onNextButtonPressed(mPaymentMethodBundle);
         }
     }
 }

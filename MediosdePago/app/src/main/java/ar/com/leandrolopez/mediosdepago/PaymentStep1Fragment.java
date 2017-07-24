@@ -23,26 +23,14 @@ import ar.com.leandrolopez.mediosdepago.viewmodel.PaymentViewModel;
  * A simple {@link Fragment} subclass.
  */
 public class PaymentStep1Fragment extends Fragment {
-
-    float getMonto() {
-        String strValue = mEditText.getText().toString();
-        try {
-            if (!strValue.equals(""))
-                return Float.parseFloat(strValue);
-            else
-                return 0;
-        } catch (Exception e) {
-            return 0;
-        }
-    }
+    
+    private Button mBtnNext;
+    private EditText mEditText;
+    private Callback mListener;
 
     public interface Callback {
         void onNextButtonPressed(float monto);
     }
-
-    private Button mBtnNext;
-    private EditText mEditText;
-    private Callback mListener;
 
     public static PaymentStep1Fragment newInstance() {
         return new PaymentStep1Fragment();
@@ -112,6 +100,18 @@ public class PaymentStep1Fragment extends Fragment {
         imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
         if (mListener != null) {
             mListener.onNextButtonPressed(getMonto());
+        }
+    }
+
+    float getMonto() {
+        String strValue = mEditText.getText().toString();
+        try {
+            if (!strValue.equals(""))
+                return Float.parseFloat(strValue);
+            else
+                return 0;
+        } catch (Exception e) {
+            return 0;
         }
     }
 }

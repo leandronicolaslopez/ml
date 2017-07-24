@@ -38,7 +38,7 @@
             android:layout_below="@id/title"
             android:layout_marginLeft="@dimen/margin_m"
             android:hint="@string/hint_monto"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:maxLength="10" />
     </RelativeLayout>
 

@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/itemRootView"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="@dimen/default_elevation"
-    tools:background="@color/list_item_selected"
     android:background="@color/list_item_unselected"
+    android:elevation="@dimen/default_elevation"
+    android:orientation="horizontal"
     android:padding="@dimen/payment_method_item_padding"
-    android:orientation="horizontal">
+    tools:background="@color/list_item_selected">
 
     <ImageView
-        android:layout_gravity="center"
         android:id="@+id/imgImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/thumbnail_width"
+        android:layout_height="@dimen/thumbnail_height"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
         tools:src="@drawable/visa" />
 
     <TextView
-        android:layout_marginLeft="@dimen/margin_m"
-        android:layout_gravity="center"
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/margin_m"
         android:textSize="@dimen/font_m"
         tools:text="Visa" />
 

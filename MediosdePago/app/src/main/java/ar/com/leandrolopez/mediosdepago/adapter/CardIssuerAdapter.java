@@ -28,10 +28,6 @@ public class CardIssuerAdapter extends RecyclerView.Adapter<CardIssuerAdapter.Ho
 
     private CardIssueListener mListener;
 
-    public CardIssuer getValue() {
-        return mList.get(mSelectedIndex);
-    }
-
     public interface CardIssueListener {
         void onValueChanged(CardIssuer cardIssuer);
     }

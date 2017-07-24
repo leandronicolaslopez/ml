@@ -25,10 +25,6 @@ public class PayerCostAdapter extends RecyclerView.Adapter<PayerCostAdapter.Hold
 
     private PayerCostListener mListener;
 
-    public PayerCost getValue() {
-        return mList.get(mSelectedIndex);
-    }
-
     public interface PayerCostListener {
         void onValueChanged(PayerCost payerCost);
     }

@@ -36,10 +36,6 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
         paymentMethodListener = listener;
     }
 
-    public PaymentMethod getValue() {
-        return mList.get(mSelectedIndex);
-    }
-
     public PaymentMethodAdapter(Context ctx, List<PaymentMethod> list, PaymentMethod selected) {
         mList = list;
         if (selected != null) {

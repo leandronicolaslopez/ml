@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private PaymentStep1Fragment.Callback callbackStep1 = new PaymentStep1Fragment.Callback() {
         @Override
         public void onNextButtonPressed(float monto) {
+            if (mModel.getMonto() != monto) {
+                mModel.setPayerCost(null);
+            }
             mModel.setMonto(monto);
             navigateFragmentTwo();
         }
@@ -65,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         public void onNextButtonPressed(PayerCost payerCost) {
             mModel.setPayerCost(payerCost);
             mSuccess = true;
+            clearStack();
+            navigateFragmentOne();
             showAlert();
         }
     };
@@ -209,8 +214,6 @@ public class MainActivity extends AppCompatActivity {
         d.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                clearStack();
-                navigateFragmentOne();
                 mModel = new PaymentViewModel();
                 mSuccess = false;
             }
