@@ -3,6 +3,7 @@ package ar.com.leandrolopez.mediosdepago;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.leandrolopez.mediosdepago.adapter.PayerCostAdapter;
@@ -34,14 +36,15 @@ public class PaymentStep4Fragment extends Fragment {
 
     private String mPaymentMethodIdBundle, mCardIssuerIdBundle;
     private float mAmountBundle;
+    private PayerCost mPayerCostBundle;
+    private List<InstallmentsModel> mList;
+
     private Button mBtnNext;
     private RecyclerView mRecycler;
     private Callback mListener;
-    private PayerCost mPayerCostBundle;
-    private final static String EXTRA_ISSUER = "ExtraCardIssuer", EXTRA_PAYMENT_METHOD = "ExtraPaymentMethod", EXTRA_AMOUNT = "ExtraAmount", EXTRA_PAYER_COST = "ExtraPayerCost";
+    private final static String EXTRA_ISSUER = "ExtraCardIssuer", EXTRA_PAYMENT_METHOD = "ExtraPaymentMethod", EXTRA_AMOUNT = "ExtraAmount", EXTRA_PAYER_COST = "ExtraPayerCost", EXTRA_LIST = "ExtraList";
     private TextView mTxtEmptyState;
     private ViewGroup mLayoutData;
-
     PayerCostAdapter mAdapter;
 
     public PaymentStep4Fragment() {
@@ -84,35 +87,59 @@ public class PaymentStep4Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mPayerCostBundle = savedInstanceState.getParcelable(EXTRA_PAYER_COST);
+            mAmountBundle = savedInstanceState.getFloat(EXTRA_AMOUNT);
+            mCardIssuerIdBundle = savedInstanceState.getString(EXTRA_ISSUER);
+            mPaymentMethodIdBundle = savedInstanceState.getString(EXTRA_PAYMENT_METHOD);
+            mList = savedInstanceState.getParcelableArrayList(EXTRA_LIST);
+        }
+
         View v = inflater.inflate(R.layout.fragment_payment_step4, container, false);
         attachViews(v);
         callService();
         return v;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(EXTRA_PAYMENT_METHOD, mPaymentMethodIdBundle);
+        outState.putString(EXTRA_ISSUER, mCardIssuerIdBundle);
+        outState.putFloat(EXTRA_AMOUNT, mAmountBundle);
+        outState.putParcelable(EXTRA_PAYER_COST, mPayerCostBundle);
+        outState.putParcelableArrayList(EXTRA_LIST, new ArrayList<>(mList));
+
+        super.onSaveInstanceState(outState);
+    }
 
     private void callService() {
-        final ProgressDialog pd = MercadoDialog.newProgress(getActivity());
-        pd.show();
+        if (mList == null) {
+            final ProgressDialog pd = MercadoDialog.newProgress(getActivity());
+            pd.show();
 
-        InstallmentService.getInstallments(getActivity(), new NetworkCallback<List<InstallmentsModel>>() {
-            @Override
-            public void onSuccess(List<InstallmentsModel> response) {
-                pd.dismiss();
-                if (response != null && response.size() > 0 && response.get(0).getPayer_costs() != null && response.get(0).getPayer_costs().size() > 0) {
-                    configureAdapter(response.get(0).getPayer_costs());
-                } else {
-                    mLayoutData.setVisibility(View.GONE);
-                    mTxtEmptyState.setVisibility(View.VISIBLE);
+            InstallmentService.getInstallments(getActivity(), new NetworkCallback<List<InstallmentsModel>>() {
+                @Override
+                public void onSuccess(List<InstallmentsModel> response) {
+                    mList = response;
+
+                    pd.dismiss();
+                    if (response != null && response.size() > 0 && response.get(0).getPayer_costs() != null && response.get(0).getPayer_costs().size() > 0) {
+                        configureAdapter(response.get(0).getPayer_costs());
+                    } else {
+                        mLayoutData.setVisibility(View.GONE);
+                        mTxtEmptyState.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
 
-            @Override
-            public void onError(NetworkError error) {
-                pd.dismiss();
-                Toast.makeText(getActivity(), getString(R.string.default_service_error), Toast.LENGTH_SHORT).show();
-            }
-        }, mAmountBundle, mPaymentMethodIdBundle, mCardIssuerIdBundle);
+                @Override
+                public void onError(NetworkError error) {
+                    pd.dismiss();
+                    Toast.makeText(getActivity(), getString(R.string.default_service_error), Toast.LENGTH_SHORT).show();
+                }
+            }, mAmountBundle, mPaymentMethodIdBundle, mCardIssuerIdBundle);
+        } else {
+            configureAdapter(mList.get(0).getPayer_costs());
+        }
     }
 
     private void attachViews(View v) {

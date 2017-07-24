@@ -14,7 +14,11 @@
     <string name="button_confirm">Comprar</string>
     <string name="currency_pesos">$</string>
 
-    <string name="summary_amount">$ %.2f</string>
+    <string name="summary_amount_value">$ %.2f</string>
+    <string name="summary_amount">Monto</string>
+    <string name="summary_method">Medio de pago</string>
+    <string name="summary_issuer">Banco</string>
+    <string name="summary_installments">Cuotas</string>
     <string name="ok">Cerrar</string>
 
     <string name="success_message">¡Compraste con éxito!</string>

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.leandrolopez.mediosdepago.adapter.CardIssuerAdapter;
@@ -29,14 +30,18 @@ import ar.com.leandrolopez.mediosdepago.ui.MercadoDialog;
  */
 public class PaymentStep3Fragment extends Fragment {
 
-    private String mPaymentMethodIdBundle;
     private Button mBtnNext;
     private RecyclerView mRecycler;
     private Callback mListener;
+
+    private String mPaymentMethodIdBundle;
     private CardIssuer mCardIssuerBundle;
+    private List<CardIssuer> mList;
+
     private TextView mTxtEmptyState;
     private ViewGroup mLayoutData;
-    private final static String EXTRA_ISSUER = "ExtraCardIssuer", EXTRA_PAYMENT_METHOD = "ExtraPaymentMethod";
+
+    private final static String EXTRA_ISSUER = "ExtraCardIssuer", EXTRA_PAYMENT_METHOD = "ExtraPaymentMethod", EXTRA_LIST = "ExtraList";
 
     CardIssuerAdapter mAdapter;
 
@@ -76,6 +81,12 @@ public class PaymentStep3Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mCardIssuerBundle = savedInstanceState.getParcelable(EXTRA_ISSUER);
+            mPaymentMethodIdBundle = savedInstanceState.getString(EXTRA_PAYMENT_METHOD);
+            mList = savedInstanceState.getParcelableArrayList(EXTRA_LIST);
+        }
+
         View v = inflater.inflate(R.layout.fragment_payment_step3, container, false);
         attachViews(v);
         callService();
@@ -83,26 +94,32 @@ public class PaymentStep3Fragment extends Fragment {
     }
 
     private void callService() {
-        final ProgressDialog pd = MercadoDialog.newProgress(getActivity());
-        pd.show();
-        CardIssuerServices.getCardIssuers(getActivity(), new NetworkCallback<List<CardIssuer>>() {
-            @Override
-            public void onSuccess(List<CardIssuer> response) {
-                pd.dismiss();
-                if (response != null && response.size() > 0) {
-                    configureAdapter(response);
-                } else {
-                    mTxtEmptyState.setVisibility(View.VISIBLE);
-                    mLayoutData.setVisibility(View.GONE);
-                }
-            }
+        if (mList == null) {
+            final ProgressDialog pd = MercadoDialog.newProgress(getActivity());
+            pd.show();
+            CardIssuerServices.getCardIssuers(getActivity(), new NetworkCallback<List<CardIssuer>>() {
+                @Override
+                public void onSuccess(List<CardIssuer> response) {
+                    mList = response;
 
-            @Override
-            public void onError(NetworkError error) {
-                pd.dismiss();
-                Toast.makeText(getActivity(), getString(R.string.default_service_error), Toast.LENGTH_SHORT).show();
-            }
-        }, mPaymentMethodIdBundle);
+                    pd.dismiss();
+                    if (response != null && response.size() > 0) {
+                        configureAdapter(response);
+                    } else {
+                        mTxtEmptyState.setVisibility(View.VISIBLE);
+                        mLayoutData.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onError(NetworkError error) {
+                    pd.dismiss();
+                    Toast.makeText(getActivity(), getString(R.string.default_service_error), Toast.LENGTH_SHORT).show();
+                }
+            }, mPaymentMethodIdBundle);
+        } else {
+            configureAdapter(mList);
+        }
     }
 
     private void attachViews(View v) {
@@ -124,16 +141,10 @@ public class PaymentStep3Fragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(EXTRA_ISSUER, mCardIssuerBundle);
-        super.onSaveInstanceState(outState);
-    }
+        outState.putString(EXTRA_PAYMENT_METHOD, mPaymentMethodIdBundle);
+        outState.putParcelableArrayList(EXTRA_LIST, new ArrayList<>(mList));
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            Bundle b = new Bundle();
-            mCardIssuerBundle = b.getParcelable(EXTRA_ISSUER);
-        }
+        super.onSaveInstanceState(outState);
     }
 
     private void configureAdapter(List<CardIssuer> list) {

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class PaymentStep2Fragment extends Fragment {
     private Callback mListener;
     private PaymentMethod mPaymentMethodBundle;
     private List<PaymentMethod> mList;
-    private final static String EXTRA = "Extra";
+    private final static String EXTRA = "Extra", EXTRA_LIST ="ExtraList";
     private TextView mTxtEmptyState;
     private ViewGroup mLayoutData;
 
@@ -72,6 +73,11 @@ public class PaymentStep2Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(savedInstanceState != null){
+            mPaymentMethodBundle = savedInstanceState.getParcelable(EXTRA);
+            mList = savedInstanceState.getParcelableArrayList(EXTRA_LIST);
+        }
+
         View v = inflater.inflate(R.layout.fragment_payment_step2, container, false);
         attachViews(v);
         callService();
@@ -117,16 +123,17 @@ public class PaymentStep2Fragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(EXTRA, mPaymentMethodBundle);
+        outState.putParcelableArrayList(EXTRA_LIST, new ArrayList<>(mList));
         super.onSaveInstanceState(outState);
     }
-
+/*
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
             mPaymentMethodBundle = savedInstanceState.getParcelable(EXTRA);
         }
-    }
+    }*/
 
     private void attachViews(View v) {
         mRecycler = (RecyclerView) v.findViewById(R.id.recycler);
